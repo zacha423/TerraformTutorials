@@ -19,15 +19,3 @@ variable "cluster_node_1" {
   description = "The name of the first node in the Proxmox cluster."
 }
 
-variable "cluster_node_2" {
-  type        = string
-  description = "The name of the second node in the Proxmox cluster"
-  nullable    = true
-}
-
-variable "cluster_node_3" {
-  type        = string
-  description = "The name of the third node in the Proxmox cluster"
-  nullable    = true
-}
-
