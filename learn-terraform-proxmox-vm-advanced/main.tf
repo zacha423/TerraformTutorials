@@ -1,3 +1,4 @@
+# Create a multiple cloud-init VMs and reuse the images
 terraform {
   required_providers {
     proxmox = {
