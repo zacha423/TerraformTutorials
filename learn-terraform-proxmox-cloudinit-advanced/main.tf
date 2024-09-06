@@ -47,7 +47,7 @@ resource "proxmox_virtual_environment_file" "cloud_config_ssh" {
         - echo "done" > /tmp/cloud-config.done
     EOF
 
-    file_name = "cloud-config.yaml"
+    file_name = "cloud-config_ssh.yaml"
   }
 }
 
@@ -82,10 +82,6 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vm" {
         address = "dhcp"
       }
     }
-    # user_account {
-    #   username = "test"
-    #   password = "test"
-    # }
 
     user_data_file_id = proxmox_virtual_environment_file.cloud_config_ssh.id
   }
@@ -93,7 +89,6 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vm" {
   network_device {
     bridge = "vmbr0"
   }
-
 }
 
 resource "proxmox_virtual_environment_download_file" "ubuntu_cloud_image" {
