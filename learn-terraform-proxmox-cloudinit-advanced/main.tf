@@ -17,7 +17,11 @@ provider "proxmox" {
   insecure = true
 }
 
-resource "proxmox_virtual_environment_file" "cloud_config" {
+data "local_file" "ssh_public_key" {
+  filename = "./id_homelab_ed25519.pub"
+}
+
+resource "proxmox_virtual_environment_file" "cloud_config_ssh" {
   content_type = "snippets"
   datastore_id = "local"
   node_name    = var.prox_endpoint_name
@@ -25,6 +29,15 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
   source_raw {
     data = <<-EOF
     #cloud-config
+    users:
+      - default
+      - name: ubuntu
+        groups:
+          - sudo
+        shell: /bin/bash
+        ssh_authorized_keys:
+          - ${trimspace(data.local_file.ssh_public_key.content)}
+        sudo: ALL=(ALL) NOPASSWD:ALL
     runcmd:
         - apt update
         - apt install -y qemu-guest-agent net-tools
@@ -69,12 +82,12 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vm" {
         address = "dhcp"
       }
     }
-    user_account {
-      username = "test"
-      password = "test"
-    }
+    # user_account {
+    #   username = "test"
+    #   password = "test"
+    # }
 
-    user_data_file_id = proxmox_virtual_environment_file.cloud_config.id
+    user_data_file_id = proxmox_virtual_environment_file.cloud_config_ssh.id
   }
 
   network_device {
