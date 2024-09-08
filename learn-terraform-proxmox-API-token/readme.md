@@ -5,4 +5,4 @@ A sample terraform configuration that connects to the proxmox node using an API 
 - `main.tf`: The main Terraform configuration file
 - `variables.tf`: Terraform variable declarations
 - `variables.auto.tfvars`: Variable definitions
-- `id_homelab_ed25519.pub`: SSH Key for access into the Proxmox VM.
+- `outputs.tf`: Data to output from the terraform build
