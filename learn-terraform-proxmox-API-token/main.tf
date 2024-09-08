@@ -11,15 +11,10 @@ locals {
   token = "${var.prox_token_id}=${var.prox_token_secret}"
 }
 
-
 provider "proxmox" {
   endpoint  = var.prox_endpoint
   api_token = local.token
   insecure  = true
 }
 
-
-
-data "proxmox_virtual_environment_nodes" "availableNodes" {
-
-}
+data "proxmox_virtual_environment_nodes" "availableNodes" {}
